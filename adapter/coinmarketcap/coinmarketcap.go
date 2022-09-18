@@ -11,12 +11,13 @@ const (
 	keyHeader = "X-CMC_PRO_API_KEY"
 )
 
+// Client is an adapted client for coinmarketcap
 type Client struct {
 	c *cmc.APIClient
 }
 
+// New ia a  constructor for a coinmarketcap client
 func New(cfg Config) *Client {
-
 	return &Client{
 		c: cmc.NewAPIClient(&cmc.Configuration{
 			BasePath: cfg.BaseURL,

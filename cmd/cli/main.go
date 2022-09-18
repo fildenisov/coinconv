@@ -25,7 +25,7 @@ var (
 
 func init() {
 	if len(os.Args[1:]) < 3 {
-		fmt.Println("not enought arguments")
+		fmt.Println("not enough arguments")
 		os.Exit(1)
 	}
 
@@ -41,7 +41,6 @@ func init() {
 }
 
 func main() {
-
 	app := app.New(app.Config{
 		CMC: coinmarketcap.Config{
 			BaseURL: defaultBaseURL,
@@ -49,8 +48,8 @@ func main() {
 			APIKey:  defaultAPIKey,
 		},
 	})
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	result, err := app.Converter.ConvertPrice(ctx, amount, from, to)
 	cancel()
 	if err != nil {
