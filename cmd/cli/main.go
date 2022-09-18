@@ -7,7 +7,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/fildenisov/coinconv/adapter/coinmarketcap"
 	"github.com/fildenisov/coinconv/internal/app"
 )
 
@@ -57,11 +56,9 @@ func init() {
 
 func main() {
 	a := app.New(app.Config{
-		CMC: coinmarketcap.Config{
-			BaseURL: baseURL,
-			Timeout: defaultTimeout,
-			APIKey:  apiKey,
-		},
+		BaseURL: baseURL,
+		Timeout: defaultTimeout,
+		APIKey:  apiKey,
 	})
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)

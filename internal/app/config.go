@@ -1,8 +1,10 @@
 package app
 
-import "github.com/fildenisov/coinconv/adapter/coinmarketcap"
+import "time"
 
 // Config is an app config
 type Config struct {
-	CMC coinmarketcap.Config
+	BaseURL string
+	APIKey  string
+	Timeout time.Duration
 }

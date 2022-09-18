@@ -2,7 +2,7 @@ package coinmarketcap
 
 import "time"
 
-// Config is an coinmarketcap adapter config
+// Config is a coinmarketcap adapter config
 type Config struct {
 	BaseURL string
 	APIKey  string

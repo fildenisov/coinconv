@@ -13,6 +13,10 @@ type App struct {
 // New is a constructor for an App
 func New(cfg Config) *App {
 	return &App{
-		Converter: coinmarketcap.New(cfg.CMC),
+		Converter: coinmarketcap.New(coinmarketcap.Config{
+			BaseURL: cfg.BaseURL,
+			APIKey:  cfg.APIKey,
+			Timeout: cfg.Timeout,
+		}),
 	}
 }

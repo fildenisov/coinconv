@@ -16,7 +16,7 @@ type Client struct {
 	c *cmc.APIClient
 }
 
-// New ia a  constructor for a coinmarketcap client
+// New is a  constructor for a coinmarketcap client
 func New(cfg Config) *Client {
 	return &Client{
 		c: cmc.NewAPIClient(&cmc.Configuration{
