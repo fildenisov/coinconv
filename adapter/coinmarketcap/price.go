@@ -8,13 +8,13 @@ import (
 	cmc "github.com/fildenisov/coinconv/src/client/coinmarketcap"
 )
 
-func (c *Client) ConvertPrice(ctx context.Context, amount float32, symbol, convert string) (float32, error) {
+func (c *Client) ConvertPrice(ctx context.Context, amount float32, from, to string) (float32, error) {
 	resp, httpResp, err := c.c.ToolsApi.GetV2ToolsPriceconversion(
 		ctx,
 		amount,
 		&cmc.ToolsApiGetV2ToolsPriceconversionOpts{
-			Symbol:  optional.NewString(symbol),
-			Convert: optional.NewString(convert),
+			Symbol:  optional.NewString(from),
+			Convert: optional.NewString(to),
 		})
 
 	if err != nil {
@@ -35,14 +35,14 @@ func (c *Client) ConvertPrice(ctx context.Context, amount float32, symbol, conve
 		}
 	}
 
-	symbolData, ok := resp.Data[symbol]
+	symbolData, ok := resp.Data[from]
 	if !ok {
-		return 0, fmt.Errorf("no symbol data returned for %v", symbol)
+		return 0, fmt.Errorf("no symbol data returned for %v", from)
 	}
 
-	quoteData, ok := symbolData.Quote[convert]
+	quoteData, ok := symbolData.Quote[to]
 	if !ok {
-		return 0, fmt.Errorf("no quote data returned for %v", convert)
+		return 0, fmt.Errorf("no quote data returned for %v", to)
 	}
 
 	return quoteData.Price, nil

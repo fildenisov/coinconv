@@ -17,17 +17,30 @@ const (
 	defaultTimeout = 10 * time.Second
 )
 
-func main() {
+var (
+	amount float32
+	from   string
+	to     string
+)
+
+func init() {
 	if len(os.Args[1:]) < 3 {
 		fmt.Println("not enought arguments")
 		os.Exit(1)
 	}
 
-	amount, err := strconv.ParseFloat(os.Args[1], 32)
+	amountParsed, err := strconv.ParseFloat(os.Args[1], 32)
 	if err != nil {
 		fmt.Println("first argument must be a valid float32")
 		os.Exit(1)
 	}
+	amount = float32(amountParsed)
+
+	from = os.Args[2]
+	to = os.Args[3]
+}
+
+func main() {
 
 	app := app.New(app.Config{
 		CMC: coinmarketcap.Config{
@@ -38,7 +51,7 @@ func main() {
 	})
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 
-	result, err := app.Converter.ConvertPrice(ctx, float32(amount), os.Args[2], os.Args[3])
+	result, err := app.Converter.ConvertPrice(ctx, amount, from, to)
 	cancel()
 	if err != nil {
 		fmt.Println(err)
