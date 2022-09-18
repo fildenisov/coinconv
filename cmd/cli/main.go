@@ -15,12 +15,17 @@ const (
 	defaultBaseURL = "https://sandbox-api.coinmarketcap.com"
 	defaultAPIKey  = "b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c" // nolint: gosec
 	defaultTimeout = 10 * time.Second
+
+	baseURLEnv = "COINCONV_BASE_URL"
+	apiKeyEnv  = "COINCONV_API_KEY"
 )
 
 var (
-	amount float32
-	from   string
-	to     string
+	baseURL string
+	apiKey  string
+	amount  float32
+	from    string
+	to      string
 )
 
 func init() {
@@ -38,19 +43,29 @@ func init() {
 
 	from = os.Args[2]
 	to = os.Args[3]
+
+	baseURL = os.Getenv(baseURLEnv)
+	if baseURL == "" {
+		baseURL = defaultBaseURL
+	}
+
+	apiKey = os.Getenv(apiKeyEnv)
+	if apiKey == "" {
+		apiKey = defaultAPIKey
+	}
 }
 
 func main() {
-	app := app.New(app.Config{
+	a := app.New(app.Config{
 		CMC: coinmarketcap.Config{
-			BaseURL: defaultBaseURL,
+			BaseURL: baseURL,
 			Timeout: defaultTimeout,
-			APIKey:  defaultAPIKey,
+			APIKey:  apiKey,
 		},
 	})
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	result, err := app.Converter.ConvertPrice(ctx, amount, from, to)
+	result, err := a.Converter.ConvertPrice(ctx, amount, from, to)
 	cancel()
 	if err != nil {
 		fmt.Println(err)
