@@ -13,7 +13,7 @@ import (
 
 const (
 	defaultBaseURL = "https://sandbox-api.coinmarketcap.com"
-	defaultAPIKey  = "b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c"
+	defaultAPIKey  = "b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c" // nolint: gosec
 	defaultTimeout = 10 * time.Second
 )
 
@@ -37,9 +37,9 @@ func main() {
 		},
 	})
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
 
 	result, err := app.Converter.ConvertPrice(ctx, float32(amount), os.Args[2], os.Args[3])
+	cancel()
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
